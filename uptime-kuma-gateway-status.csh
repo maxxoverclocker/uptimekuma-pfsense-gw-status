@@ -3,8 +3,9 @@
 # Add necessary directories to the system path
 set path = ($path /bin /sbin /usr/bin /usr/local/bin /usr/local/sbin)
 
-# Set the path of the script
+# Set the path of the script and log file path (monitor with: tail -f uptime-kuma-gateway-status.log)
 set script_path = '/root/local-scripts/uptime-kuma-gateway-status'
+set log_file = 'uptime-kuma-gateway-status.log'
 
 # Uptime Kuma settings
 set uptime_kuma_url = 'http://uptime-kuma.example.com:3001'
@@ -72,24 +73,26 @@ while ( 1 == 1 )
             set msg = ( 'OK' )
         endif
 
-        # If there are no errors, set status to 'UP', otherwise set it to 'DOWN'
+        # If there are no errors, set status to 'up', otherwise set it to 'down'
         if ( $wan_error == 0 ) then
-            set gw_status = 'UP'
+            set gw_status = 'up'
         else
-            set gw_status = 'DOWN'
+            set gw_status = 'down'
         endif
         
         # Print the gw_status, message, and latency
-        echo    "Gateway: ${wan}"
-        echo    "Status:  ${gw_status}"
-        echo    "Message: ${msg}"
-        echo    "Latency: ${latency}"
-        echo -n "ApiPush: "
-        curl --insecure --silent "${uptime_kuma_url}/api/push/${uptime_kuma_monitor_push_id}?status=${gw_status}&msg=${msg}&ping=${latency}"
-        echo ""
-        echo ""
+        set current_datetime = `date +%Y-%m-%d\ %H:%M:%S`
+        echo    "Time:    $current_datetime" | tee $log_file
+        echo    "Gateway: ${wan}" | tee -a $log_file
+        echo    "Status:  ${gw_status}" | tee -a $log_file
+        echo    "Message: ${msg}" | tee -a $log_file
+        echo    "Latency: ${latency}" | tee -a $log_file
+        echo -n "ApiPush: " | tee -a $log_file
+        curl --insecure --silent "${uptime_kuma_url}/api/push/${uptime_kuma_monitor_push_id}?status=${gw_status}&msg=${msg}&ping=${latency}" | tee -a $log_file
+        echo "" | tee -a $log_file
+        echo "" | tee -a $log_file
     end
-    echo "------------------------"
-    echo ""
+    echo "------------------------" | tee -a $log_file
+    echo "" | tee -a $log_file
     sleep $uptime_kuma_heartbeat_interval
 end
