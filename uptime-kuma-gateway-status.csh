@@ -11,8 +11,8 @@ set uptime_kuma_url = 'http://uptime-kuma.example.com:3001'
 set uptime_kuma_gateway_dictionary = 'uptime-kuma-gateway-dictionary.txt'
 @ uptime_kuma_heartbeat_interval = 15
 
-# WAN interface names
-set wan_interfaces = 'WAN_1_DHCP WAN_2_DHCP'
+# WAN gateway names
+set gateway_names = 'WAN_1_DHCP WAN_2_DHCP'
 
 # Gateway health thresholds
 @ latency_threshold_warn = 50
@@ -26,7 +26,7 @@ while ( 1 == 1 )
     $script_path/dpinger-gateway-status.py > $script_path/dpinger-gateway-status.out
 
     # Process each WAN interface
-    foreach wan ( $wan_interfaces )
+    foreach wan ( $gateway_names )
         @ wan_error = 0
         @ wan_warn = 0
 
@@ -87,9 +87,9 @@ while ( 1 == 1 )
         echo -n "ApiPush: "
         curl --insecure --silent "${uptime_kuma_url}/api/push/${uptime_kuma_monitor_push_id}?status=${gw_status}&msg=${msg}&ping=${latency}"
         echo ""
-		echo ""
+        echo ""
     end
     echo "------------------------"
-	echo ""
+    echo ""
     sleep $uptime_kuma_heartbeat_interval
 end
