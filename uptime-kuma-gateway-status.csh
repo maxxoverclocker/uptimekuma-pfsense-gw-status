@@ -80,19 +80,33 @@ while ( 1 == 1 )
             set gw_status = 'down'
         endif
         
+        # Push to Uptime Kuma monitor URL
+        set uptime_kuma_monitor_push_result = `curl --insecure --silent "${uptime_kuma_url}/api/push/${uptime_kuma_monitor_push_id}?status=${gw_status}&msg=${msg}&ping=${latency}"`
+        
         # Print the gw_status, message, and latency
         set current_datetime = `date +%Y-%m-%d\ %H:%M:%S`
-        echo    "Time:    $current_datetime" | tee -a $log_file
-        echo    "Gateway: ${wan}" | tee -a $log_file
-        echo    "Status:  ${gw_status}" | tee -a $log_file
-        echo    "Message: ${msg}" | tee -a $log_file
-        echo    "Latency: ${latency}" | tee -a $log_file
-        echo -n "ApiPush: " | tee -a $log_file
-        curl --insecure --silent "${uptime_kuma_url}/api/push/${uptime_kuma_monitor_push_id}?status=${gw_status}&msg=${msg}&ping=${latency}" | tee -a $log_file
-        echo "" | tee -a $log_file
-        echo "" | tee -a $log_file
+        echo    "Time:    $current_datetime"
+        echo    "Gateway: ${wan}"
+        echo    "Status:  ${gw_status}"
+        echo    "Message: ${msg}"
+        echo    "Latency: ${latency}"
+        echo    "ApiPush: ${uptime_kuma_monitor_push_result}"
+        echo ""
+        echo ""
+
+        # Logging
+        echo    "Time:    $current_datetime" >> $script_path/$log_file
+        echo    "Gateway: ${wan}" >> $script_path/$log_file
+        echo    "Status:  ${gw_status}" >> $script_path/$log_file
+        echo    "Message: ${msg}" >> $script_path/$log_file
+        echo    "Latency: ${latency}" >> $script_path/$log_file
+        echo    "ApiPush: ${uptime_kuma_monitor_push_result}" >> $script_path/$log_file
+        echo "" >> $script_path/$log_file
+        echo "" >> $script_path/$log_file
     end
-    echo "------------------------" | tee -a $log_file
+    echo "------------------------"
+    echo "------------------------" >> $script_path/$log_file
     sleep $uptime_kuma_heartbeat_interval
-    echo "" | tee $log_file
+    echo ""
+    echo "" > $script_path/$log_file
 end
