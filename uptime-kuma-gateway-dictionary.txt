@@ -1,2 +1,2 @@
-WAN_1 2yQvauHsqC
-WAN_2 5yGsfZkxyG
+WAN_1_DHCP 2yQmauBsqC
+WAN_2_DHCP 5nGsfZkpyG
