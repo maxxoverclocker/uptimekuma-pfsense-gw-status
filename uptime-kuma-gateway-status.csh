@@ -7,7 +7,7 @@ set path = ($path /bin /sbin /usr/bin /usr/local/bin /usr/local/sbin)
 set script_path = '/root/local-scripts/uptime-kuma-gateway-status'
 
 # Uptime Kuma settings
-set uptime_kuma_url = 'http://uptime-kuma.prochaska.pub:3001'
+set uptime_kuma_url = 'http://uptime-kuma.example.com:3001'
 set uptime_kuma_gateway_dictionary = 'uptime-kuma-gateway-dictionary.txt'
 @ uptime_kuma_heartbeat_interval = 15
 
