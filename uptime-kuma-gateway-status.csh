@@ -82,7 +82,7 @@ while ( 1 == 1 )
         
         # Print the gw_status, message, and latency
         set current_datetime = `date +%Y-%m-%d\ %H:%M:%S`
-        echo    "Time:    $current_datetime" | tee $log_file
+        echo    "Time:    $current_datetime" | tee -a $log_file
         echo    "Gateway: ${wan}" | tee -a $log_file
         echo    "Status:  ${gw_status}" | tee -a $log_file
         echo    "Message: ${msg}" | tee -a $log_file
@@ -93,6 +93,6 @@ while ( 1 == 1 )
         echo "" | tee -a $log_file
     end
     echo "------------------------" | tee -a $log_file
-    echo "" | tee -a $log_file
     sleep $uptime_kuma_heartbeat_interval
+    echo "" | tee $log_file
 end
