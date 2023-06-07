@@ -4,8 +4,10 @@
 set path = ($path /bin /sbin /usr/bin /usr/local/bin /usr/local/sbin)
 
 # Set the path of the script and log file path (monitor with: tail -f uptime-kuma-gateway-status.log)
+set script_name = 'uptime-kuma-gateway-status'
 set script_path = '/root/local-scripts/uptime-kuma-gateway-status'
 set log_file = 'uptime-kuma-gateway-status.log'
+set is_running = `pgrep -f $script_name`
 
 # Uptime Kuma settings
 set uptime_kuma_url = 'http://uptime-kuma.example.com:3001'
@@ -20,6 +22,12 @@ set gateway_names = 'WAN_1_DHCP WAN_2_DHCP'
 @ latency_threshold_error = 100
 @ loss_threshold_warn = 5
 @ loss_threshold_error = 10
+
+if ( $is_running != "" )
+then
+    echo "Another instance of $script_name is already running."
+    exit 1
+endif
 
 # Loop indefinitely
 while ( 1 == 1 )
