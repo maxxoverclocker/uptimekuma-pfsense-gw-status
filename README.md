@@ -21,8 +21,8 @@ Simple script that will report the current gateway status in pfSense to Uptime K
 
 4. Using the Shellcmd package in pfSense, create a new Shellcmd Configuration:
 - Command: `nohup /bin/csh /root/local-scripts/uptime-kuma-gateway-status/uptime-kuma-gateway-status.csh >/dev/null 2>&1 &`
-- Shellcmd Type: shellcmd
-- Description: uptime-kuma-gateway-status.csh
+- Shellcmd Type: `shellcmd`
+- Description: `uptime-kuma-gateway-status.csh`
 ![image](https://github.com/maxxoverclocker/uptimekuma-pfsense-gw-status/assets/23197375/4a65dd6c-54f1-4c7a-8e56-e88668edc4dd)
 
 5. NEW - Using the Cron package in pfSense, create a new Cron schedule:
