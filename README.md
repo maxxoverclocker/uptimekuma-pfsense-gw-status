@@ -26,13 +26,13 @@ Simple script that will report the current gateway status in pfSense to Uptime K
 ![image](https://github.com/maxxoverclocker/uptimekuma-pfsense-gw-status/assets/23197375/4a65dd6c-54f1-4c7a-8e56-e88668edc4dd)
 
 5. NEW - Using the Cron package in pfSense, create a new Cron schedule:
-- Minute: */15
-- Hour: *
-- Day of the Month: *
-- Month of the Year: * *
-- Day of the Week: *
-- User: root
-- Command: nohup /bin/csh /root/local-scripts/uptime-kuma-gateway-status/uptime-kuma-gateway-status.csh >/dev/null 2>&1 &
+- Minute: `*/15`
+- Hour: `*`
+- Day of the Month: `*`
+- Month of the Year: `*`
+- Day of the Week: `*`
+- User: `root`
+- Command: `nohup /bin/csh /root/local-scripts/uptime-kuma-gateway-status/uptime-kuma-gateway-status.csh >/dev/null 2>&1 &`
 ![image](https://github.com/maxxoverclocker/uptimekuma-pfsense-gw-status/assets/23197375/66c9d8c0-e085-45e6-a87f-a6d8f0058f97)
 
 7. Reboot and enjoy!
