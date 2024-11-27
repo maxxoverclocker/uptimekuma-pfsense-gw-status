@@ -43,14 +43,14 @@ while ( 1 == 1 )
 
         # Get the Uptime Kuma monitor push ID for the current WAN interface
         set uptime_kuma_monitor_push_id = `grep $wan $script_path/$uptime_kuma_gateway_dictionary | awk '{print $2}'`
-        
+
         # Get the status of the current WAN interface from dpinger-gateway-status.out
         set dpinger_status = `grep $wan $script_path/dpinger-gateway-status.out`
-        
+
         # Extract latency and loss values from dpinger status
         @ latency = `echo $dpinger_status | awk '{print $2}'`
         @ loss = `echo $dpinger_status | awk '{print $3}'`
-        
+
         # Check if latency is above warning threshold
         if ( $latency >= $latency_threshold_warn ) then
             # Check if latency is above error threshold
@@ -62,7 +62,7 @@ while ( 1 == 1 )
                 @ wan_warn = ${wan_warn} + 1
             endif
         endif
-        
+
         # Check if loss is above warning threshold
         if ( $loss >= $loss_threshold_warn ) then
             # Check if loss is above error threshold
@@ -74,7 +74,7 @@ while ( 1 == 1 )
                 @ wan_warn = ${wan_warn} + 1
             endif
         endif
-        
+
         # If there are no warnings, set message to 'OK'
         if ( $wan_warn == 0 ) then
             set msg = ( 'OK' )
@@ -86,10 +86,10 @@ while ( 1 == 1 )
         else
             set gw_status = 'down'
         endif
-        
+
         # Push to Uptime Kuma monitor URL
         set uptime_kuma_monitor_push_result = `curl --insecure --silent "${uptime_kuma_url}/api/push/${uptime_kuma_monitor_push_id}?status=${gw_status}&msg=${msg}&ping=${latency}"`
-        
+
         # Print the gw_status, message, and latency
         set current_datetime = `date +%Y-%m-%d\ %H:%M:%S`
         echo    "Time:    $current_datetime"
@@ -99,7 +99,6 @@ while ( 1 == 1 )
         echo    "Latency: ${latency}"
         echo    "ApiPush: ${uptime_kuma_monitor_push_result}"
         echo ""
-        echo ""
 
         # Logging
         echo    "Time:    $current_datetime" >> $script_path/$log_file
@@ -108,7 +107,6 @@ while ( 1 == 1 )
         echo    "Message: ${msg}" >> $script_path/$log_file
         echo    "Latency: ${latency}" >> $script_path/$log_file
         echo    "ApiPush: ${uptime_kuma_monitor_push_result}" >> $script_path/$log_file
-        echo "" >> $script_path/$log_file
         echo "" >> $script_path/$log_file
     end
     echo "------------------------"
