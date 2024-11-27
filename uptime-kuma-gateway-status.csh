@@ -23,8 +23,7 @@ set gateway_names = 'WAN_1_DHCP WAN_2_DHCP'
 @ loss_threshold_warn = 5
 @ loss_threshold_error = 10
 
-if ( $is_running != "" )
-then
+if ( $is_running != "" ) then
     echo "Another instance of $script_name is already running."
     exit 1
 endif
