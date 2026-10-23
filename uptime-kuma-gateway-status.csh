@@ -48,8 +48,10 @@ while ( 1 == 1 )
         set dpinger_status = `grep $wan $script_path/dpinger-gateway-status.out`
 
         # Extract latency and loss values from dpinger status
-        @ latency = `echo $dpinger_status | awk '{print $2}'`
+        @ latency = `echo $dpinger_status | awk '{print ($2 == "" ? -1 : $2)}'`
         @ loss = `echo $dpinger_status | awk '{print $3}'`
+
+        if ($latency == -1) continue
 
         # Check if latency is above warning threshold
         if ( $latency >= $latency_threshold_warn ) then
